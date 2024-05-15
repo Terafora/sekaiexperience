@@ -20,13 +20,9 @@ app.get('/', (req, res) => {
     res.render('home')
 })
 
-app.get('/makeexperience', async (req, res) => {
-    const exp = new Experience({
-        title: 'Your First Experience',
-        location: 'Somewhere in the world',
-        description: 'Something life changing.' });
-        await exp.save();
-        res.send(exp);
+app.get('/experiences', async (req, res) => {
+    const experiences = await Experience.find({});
+    res.render('experience/index', {experiences});
 })
 
 app.listen(3000, () => {
