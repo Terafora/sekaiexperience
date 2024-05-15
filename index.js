@@ -25,6 +25,20 @@ app.get('/experiences', async (req, res) => {
     res.render('experience/index', {experiences});
 })
 
+app.get('/experiences/:id', async (req, res) => {
+    try {
+        const experience = await Experience.findById(req.params.id);
+        if (!experience) {
+            return res.status(404).send('Experience not found');
+        }
+        res.render('experience/show', { experience });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+
 app.listen(3000, () => {
     console.log('Serving data on port 3000')
 })
