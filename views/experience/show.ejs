@@ -19,9 +19,15 @@
     <p>
         <%= experience.description %>
     </p>
-
-    <footer>
+    <div>
         <button><a href="/experiences/<%= experience._id %>/edit">Edit</a></button>
+    </div>
+    <div>
+        <form action="/experiences/<%= experience._id %>?_method=DELETE" method="POST">
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+    <footer>
         <button><a href="/experiences">Back</a></button>
     </footer>
 
