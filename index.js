@@ -1,6 +1,7 @@
 const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
+const methodOverride = require('method-override');
 const Experience = require('./models/experience');
 
 mongoose.connect('mongodb://localhost:27017/sekai-experience');
@@ -17,6 +18,7 @@ app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
 app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 
 app.get('/', (req, res) => {
     res.render('home')
@@ -54,6 +56,25 @@ app.get('/experiences/:id', async (req, res) => {
         console.error(err);
         res.status(500).send('Internal Server Error');
     }
+});
+
+app.get('/experiences/:id/edit', async (req, res) => {
+        try {
+        const experience = await Experience.findById(req.params.id);
+        if (!experience) {
+            return res.status(404).send('Experience not found');
+        }
+        res.render('experience/edit', { experience });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Internal Server Error');
+    }
+});
+
+app.put('/experiences/:id', async (req, res) => {
+    const {title, location, description} = req.body;
+    const experience = await Experience.findByIdAndUpdate(req.params.id, {title, location, description}, {new: true});
+    res.redirect(`/experiences/${experience._id}`);
 });
 
 
