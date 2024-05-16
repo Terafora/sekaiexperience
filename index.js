@@ -77,7 +77,11 @@ app.put('/experiences/:id', async (req, res) => {
     res.redirect(`/experiences/${experience._id}`);
 });
 
-
+app.delete('/experiences/:id', async (req, res) => {
+    const {id} = req.params;
+    await Experience.findByIdAndDelete(id);
+    res.redirect('/experiences');
+});
 
 app.listen(3000, () => {
     console.log('Serving data on port 3000')
