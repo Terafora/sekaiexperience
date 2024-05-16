@@ -16,14 +16,32 @@ const app = express();
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
+app.use(express.urlencoded({ extended: true }));
+
 app.get('/', (req, res) => {
     res.render('home')
-})
+});
 
 app.get('/experiences', async (req, res) => {
     const experiences = await Experience.find({});
     res.render('experience/index', {experiences});
-})
+});
+
+app.get('/experiences/new', (req, res) => {
+    res.render('experience/new');
+});
+
+app.post('/experiences', async (req, res) => {
+    const {title, location, description} = req.body;
+    const experience = new Experience({title, location, description});
+    try {
+        await experience.save();
+        res.redirect(`/experiences/${experience._id}`);
+    } catch (err) {
+        console.error(err);
+        res.send('Error saving experience');
+    }    
+});
 
 app.get('/experiences/:id', async (req, res) => {
     try {
@@ -39,6 +57,7 @@ app.get('/experiences/:id', async (req, res) => {
 });
 
 
+
 app.listen(3000, () => {
     console.log('Serving data on port 3000')
-})
+});
