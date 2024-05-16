@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Edit <%= experience.title %></title>
+
+</head>
+
+<body>
+    <h1>
+        Edit <%= experience.title %>
+    </h1>
+    <form action="/experiences/<%= experience._id %>?_method=PUT" method="POST">
+        <div>
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="<%= experience.title %>">
+        </div>
+        <div>
+            <label for="location">Location</label>
+            <input type="text" name="location" id="location" value="<%= experience.location %>">
+        </div>
+        <div>
+            <label for="description">Description</label>
+            <textarea name="description" id="description" cols="30" rows="10" value="<%= experience.description %>"></textarea>
+        </div>
+        <button>Update Experience</button>
+        <button><a href="/experiences/<%= experience._id %>">Cancel</a></button>
+    </form>
+
+</body>
+
+</html>
