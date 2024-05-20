@@ -1,22 +1,22 @@
 <% layout('layouts/Boilerplate') %>
-    <h1>
-        <%= experience.title %>
-    </h1>
-    <h2>
-        <%= experience.location %>
-    </h2>
-    <img src="<%= experience.image %>" alt="<%= experience.title %>">
-    <p>
-        <%= experience.description %>
-    </p>
-    <div>
-        <button><a href="/experiences/<%= experience._id %>/edit">Edit</a></button>
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <div class="card mb-3">
+            <img src="<%= experience.image %>" class="card-img-top" alt="<%= experience.title %>">
+            <div class="card-body">
+                <h5 class="card-title"><%= experience.title %></h5>
+                <p class="card-text"><%= experience.description %></p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item text-muted"><%= experience.location %></li>
+            </ul>
+            <div class="card-body">
+                <a class="text-white text-decoration-none btn btn-info card-link" href="/experiences/<%= experience._id %>/edit">Edit</a>
+                <form class="d-inline" action="/experiences/<%= experience._id %>?_method=DELETE" method="POST">
+                    <button type="submit" class="btn btn-danger card-link">Delete</button>
+                </form>
+            </div>
+        </div>
     </div>
-    <div>
-        <form action="/experiences/<%= experience._id %>?_method=DELETE" method="POST">
-            <button type="submit">Delete</button>
-        </form>
-    </div>
-    <footer>
-        <button><a href="/experiences">Back</a></button>
-    </footer>
+</div>
