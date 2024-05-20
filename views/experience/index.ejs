@@ -1,30 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
+<% layout('layouts/Boilerplate') %>
+<h1>
+    All Experiences
+</h1>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Experiences</title>
+<div>
+    <button><a href="/experiences/new">Add New Experience</a></button>
+</div>
 
-</head>
+<ul>
+    <% for(let experience of experiences) { %>
+    <li>
+        <a href="/experiences/<%= experience._id %>"><%= experience.title %></a>
+    </li>
+    <% }; %>
+</ul>
 
-<body>
-    <h1>
-        All Experiences
-    </h1>
-
-    <div>
-        <button><a href="/experiences/new">Add New Experience</a></button>
-    </div>
-
-    <ul>
-        <% for(let experience of experiences) { %>
-        <li>
-            <a href="/experiences/<%= experience._id %>"><%= experience.title %></a>
-        </li>
-        <% }; %>
-    </ul>
 </body>
-
 </html>
