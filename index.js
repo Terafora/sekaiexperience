@@ -74,8 +74,8 @@ app.get('/experiences/:id/edit', async (req, res) => {
 });
 
 app.put('/experiences/:id', async (req, res) => {
-    const {title, location, description} = req.body;
-    const experience = await Experience.findByIdAndUpdate(req.params.id, {title, location, description}, {new: true});
+    const { title, location, description, image } = req.body;
+    const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
     res.redirect(`/experiences/${experience._id}`);
 });
 
