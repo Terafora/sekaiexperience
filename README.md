@@ -5,7 +5,7 @@
 ## Technologies
 
 - HTML / EJS / CSS / Bootstrap
-- JavaScript / NodeJS / Express / EJS - Mate
+- JavaScript / NodeJS / Express / EJS - Mate / Joi
 - MongoDB / Mongoose
 - Figma / PhotoShop
 
