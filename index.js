@@ -27,8 +27,12 @@ app.get('/', (req, res) => {
 });
 
 app.get('/experiences', async (req, res) => {
-    const experiences = await Experience.find({});
-    res.render('experience/index', {experiences});
+    try {
+        const experiences = await Experience.find({});
+        res.render('experience/index', {experiences});
+    } catch (e) {
+        next(e);
+    }
 });
 
 app.get('/experiences/new', (req, res) => {
@@ -41,9 +45,8 @@ app.post('/experiences', async (req, res) => {
     try {
         await experience.save();
         res.redirect(`/experiences/${experience._id}`);
-    } catch (err) {
-        console.error(err);
-        res.send('Error saving experience');
+    } catch (e) {
+        next(e);
     }    
 });
 
@@ -54,9 +57,8 @@ app.get('/experiences/:id', async (req, res) => {
             return res.status(404).send('Experience not found');
         }
         res.render('experience/show', { experience });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
+    } catch (e) {
+        next(e);
     }
 });
 
@@ -67,22 +69,33 @@ app.get('/experiences/:id/edit', async (req, res) => {
             return res.status(404).send('Experience not found');
         }
         res.render('experience/edit', { experience });
-    } catch (err) {
-        console.error(err);
-        res.status(500).send('Internal Server Error');
+    } catch (e) {
+        next(e);
     }
 });
 
 app.put('/experiences/:id', async (req, res) => {
-    const { title, location, description, image } = req.body;
-    const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
-    res.redirect(`/experiences/${experience._id}`);
+    try{
+        const { title, location, description, image } = req.body;
+        const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
+        res.redirect(`/experiences/${experience._id}`);
+    } catch (e) {
+        next(e);
+    }
 });
 
 app.delete('/experiences/:id', async (req, res) => {
-    const {id} = req.params;
-    await Experience.findByIdAndDelete(id);
-    res.redirect('/experiences');
+    try{
+        const {id} = req.params;
+        await Experience.findByIdAndDelete(id);
+        res.redirect('/experiences');
+    } catch (e) {
+        next(e);
+    }  
+});
+
+app.use((err, req, res, next) => {
+    res.send('Something went wrong');
 });
 
 app.listen(3000, () => {
