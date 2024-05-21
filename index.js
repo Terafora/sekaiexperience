@@ -42,8 +42,9 @@ app.get('/experiences/new', (req, res) => {
 });
 
 app.post('/experiences', catchAsync(async (req, res) => {
-    const {title, location, description} = req.body;
-    const experience = new Experience({title, location, description});
+    console.log(result);
+    const {title, location, description, image} = req.body;
+    const experience = new Experience({title, location, description, image});
     await experience.save();
     res.redirect(`/experiences/${experience._id}`);
 }));
