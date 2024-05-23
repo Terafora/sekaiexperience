@@ -6,6 +6,7 @@ const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
 const Experience = require('./models/experience');
+const Review = require('./models/review');
 
 mongoose.connect('mongodb://localhost:27017/sekai-experience');
 
@@ -75,6 +76,15 @@ app.delete('/experiences/:id', catchAsync(async (req, res) => {
         const {id} = req.params;
         await Experience.findByIdAndDelete(id);
         res.redirect('/experiences');
+}));
+
+app.post('/experiences/:id/reviews', catchAsync(async (req, res) => {
+    const experience = await Experience.findById(req.params.id);
+    const review = new Review(req.body.review);
+    experience.reviews.push(review);
+    await review.save();
+    await experience.save();
+    res.redirect(`/experiences/${experience._id}`);
 }));
 
 app.all('*', (req, res, next) => {
