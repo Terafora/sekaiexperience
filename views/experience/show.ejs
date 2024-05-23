@@ -1,7 +1,7 @@
 <% layout('layouts/Boilerplate') %>
 
 <div class="row">
-    <div class="col-6 offset-3">
+    <div class="col-6">
         <div class="card mb-3">
             <img src="<%= experience.image %>" class="card-img-top" alt="<%= experience.title %>">
             <div class="card-body">
@@ -18,17 +18,31 @@
                 </form>
             </div>
         </div>
+    </div>
+    <div class="col-6">
         <h2>Leave a Review</h2>
         <form action="/experiences/<%= experience._id %>/reviews" method="POST" class="mb-3 validated-form" novalidate>
             <form class="mb-3">
                 <label class="form-label" for="rating">Rating</label>
                 <input class="form-range" type="range" min="1" max="5" name="review[rating]" id="rating">
+                <div class="mb-3">
+                    <label class="form-label" for="body">Review</label>
+                    <textarea class="form-control" name="review[body]" id="body" cols="30" row="3" required></textarea>
+                    <div class="valid-feedback">Thank you for your review</div>
+                </div>
+                <button class="btn btn-success" type="submit">Submit</button>
+            </form>
             <div class="mb-3">
-                <label class="form-label" for="body">Review</label>
-                <textarea class="form-control" name="review[body]" id="body" cols="30" row="3" required></textarea>
-                <div class="valid-feedback">Thank you for your review</div>
+                <h2>Reviews</h2>
+                <% for (let review of experience.reviews) { %>
+                    <div class="card mb-3">
+                        <div class="card-body">
+                            <h5 class="card-title">Rating: <%= review.rating %> / 5</h5>
+                            <p class="card-text">Review: <%= review.body %>
+                            </p>
+                        </div>
+                    </div>
+                    <% } %>
             </div>
-            <button class="btn btn-success" type="submit">Submit</button>
-        </form>
     </div>
 </div>

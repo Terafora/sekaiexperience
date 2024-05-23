@@ -51,10 +51,7 @@ app.post('/experiences', catchAsync(async (req, res) => {
 }));
 
 app.get('/experiences/:id', catchAsync(async (req, res) => {
-    const experience = await Experience.findById(req.params.id);
-    if (!experience) {
-        return res.status(404).send('Experience not found');
-    }
+    const experience = await Experience.findById(req.params.id).populate('reviews');
     res.render('experience/show', { experience });
 }));
 
