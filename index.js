@@ -2,11 +2,11 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const engine = require('ejs-mate');
-const catchAsync = require('./utils/catchAsync');
 const ExpressError = require('./utils/ExpressError');
 const methodOverride = require('method-override');
-const Experience = require('./models/experience');
-const Review = require('./models/review');
+
+const experiences = require('./routes/experiences');
+const reviews = require('./routes/reviews');
 
 mongoose.connect('mongodb://localhost:27017/sekai-experience');
 
@@ -25,72 +25,12 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 
+app.use("/experiences", experiences);
+app.use("/experiences/:id/reviews", reviews);
+
 app.get('/', (req, res) => {
     res.render('home')
 });
-
-app.get('/experiences', async (req, res) => {
-    try {
-        const experiences = await Experience.find({});
-        res.render('experience/index', {experiences});
-    } catch (e) {
-        next(e);
-    }
-});
-
-app.get('/experiences/new', (req, res) => {
-    res.render('experience/new');
-});
-
-app.post('/experiences', catchAsync(async (req, res) => {
-    console.log(result);
-    const {title, location, description, image} = req.body;
-    const experience = new Experience({title, location, description, image});
-    await experience.save();
-    res.redirect(`/experiences/${experience._id}`);
-}));
-
-app.get('/experiences/:id', catchAsync(async (req, res) => {
-    const experience = await Experience.findById(req.params.id).populate('reviews');
-    res.render('experience/show', { experience });
-}));
-
-app.get('/experiences/:id/edit', catchAsync(async (req, res) => {
-    const experience = await Experience.findById(req.params.id);
-    if (!experience) {
-        return res.status(404).send('Experience not found');
-    }
-    res.render('experience/edit', { experience });
-}));
-
-app.put('/experiences/:id', catchAsync(async (req, res) => {
-        const { title, location, description, image } = req.body;
-        const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
-        res.redirect(`/experiences/${experience._id}`);
-}));
-
-app.delete('/experiences/:id', catchAsync(async (req, res) => {
-        const {id} = req.params;
-        await Experience.findByIdAndDelete(id);
-        res.redirect('/experiences');
-}));
-
-app.post('/experiences/:id/reviews', catchAsync(async (req, res) => {
-    const experience = await Experience.findById(req.params.id);
-    const review = new Review(req.body.review);
-    experience.reviews.push(review);
-    await review.save();
-    await experience.save();
-    res.redirect(`/experiences/${experience._id}`);
-}));
-
-app.delete('/experiences/:id/reviews/:reviewId', catchAsync(async (req, res) => {
-    const { id, reviewId } = req.params;
-    await Experience.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
-    await Review.findByIdAndDelete(reviewId);
-    res.redirect(`/experiences/${id}`);
-}));
-
 
 app.all('*', (req, res, next) => {
     next(new ExpressError('Page not found', 404));
