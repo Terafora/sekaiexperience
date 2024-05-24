@@ -9,16 +9,15 @@ router.get('/', catchAsync(async (req, res) => {
     res.render('experience/index', { experiences });
 }));
 
-router.get('//new', (req, res) => {
+router.get('/new', (req, res) => {
     res.render('experience/new');
 });
 
 router.post('/', catchAsync(async (req, res) => {
-    console.log(result);
-    const {title, location, description, image} = req.body;
-    const experience = new Experience({title, location, description, image});
+    const { title, location, description, image } = req.body;
+    const experience = new Experience({ title, location, description, image });
     await experience.save();
-    res.redirect(`/${experience._id}`);
+    res.redirect(`/experiences/${experience._id}`);
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
@@ -35,15 +34,15 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 }));
 
 router.put('/:id', catchAsync(async (req, res) => {
-        const { title, location, description, image } = req.body;
-        const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
-        res.redirect(`/experiences/${experience._id}`);
+    const { title, location, description, image } = req.body;
+    const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
+    res.redirect(`/experiences/${experience._id}`);
 }));
 
 router.delete('/:id', catchAsync(async (req, res) => {
-        const {id} = req.params;
-        await Experience.findByIdAndDelete(id);
-        res.redirect('/experiences');
+    const { id } = req.params;
+    await Experience.findByIdAndDelete(id);
+    res.redirect('/experiences');
 }));
 
 module.exports = router;
