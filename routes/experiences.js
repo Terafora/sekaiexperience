@@ -17,12 +17,13 @@ router.post('/', catchAsync(async (req, res) => {
     const { title, location, description, image } = req.body;
     const experience = new Experience({ title, location, description, image });
     await experience.save();
+    req.flash('success', 'Successfully made a new experience!');
     res.redirect(`/experiences/${experience._id}`);
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
     const experience = await Experience.findById(req.params.id).populate('reviews');
-    res.render('experience/show', { experience });
+    res.render('experience/show', { experience});
 }));
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
@@ -36,12 +37,14 @@ router.get('/:id/edit', catchAsync(async (req, res) => {
 router.put('/:id', catchAsync(async (req, res) => {
     const { title, location, description, image } = req.body;
     const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
+    req.flash('success', 'Successfully updated experience!');
     res.redirect(`/experiences/${experience._id}`);
 }));
 
 router.delete('/:id', catchAsync(async (req, res) => {
     const { id } = req.params;
     await Experience.findByIdAndDelete(id);
+    req.flash('success', 'Successfully deleted experience');
     res.redirect('/experiences');
 }));
 
