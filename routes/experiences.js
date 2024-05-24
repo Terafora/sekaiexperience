@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
-const ExpressError = require('../utils/ExpressError');
 const Experience = require('../models/experience');
 
 router.get('/', catchAsync(async (req, res) => {
@@ -23,13 +22,18 @@ router.post('/', catchAsync(async (req, res) => {
 
 router.get('/:id', catchAsync(async (req, res) => {
     const experience = await Experience.findById(req.params.id).populate('reviews');
-    res.render('experience/show', { experience});
+    if (!experience) {
+        req.flash('error', 'Cannot find that experience!');
+        return res.redirect('/experiences');
+    }
+    res.render('experience/show', { experience });
 }));
 
 router.get('/:id/edit', catchAsync(async (req, res) => {
     const experience = await Experience.findById(req.params.id);
     if (!experience) {
-        return res.status(404).send('Experience not found');
+        req.flash('error', 'Cannot find that experience!');
+        return res.redirect('/experiences');
     }
     res.render('experience/edit', { experience });
 }));
