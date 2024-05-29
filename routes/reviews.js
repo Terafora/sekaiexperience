@@ -4,8 +4,9 @@ const catchAsync = require('../utils/catchAsync');
 const ExpressError = require('../utils/ExpressError');
 const Experience = require('../models/experience');
 const Review = require('../models/review');
+const {isLoggedIn} = require('../middleware');
 
-router.post('/', catchAsync(async (req, res) => {
+router.post('/', isLoggedIn, catchAsync(async (req, res) => {
     const experience = await Experience.findById(req.params.id);
     const review = new Review(req.body.review);
     experience.reviews.push(review);
@@ -15,7 +16,7 @@ router.post('/', catchAsync(async (req, res) => {
     res.redirect(`/experiences/${experience._id}`);
 }));
 
-router.delete('/:reviewId', catchAsync(async (req, res) => {
+router.delete('/:reviewId', isLoggedIn, catchAsync(async (req, res) => {
     const { id, reviewId } = req.params;
     await Experience.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
     await Review.findByIdAndDelete(reviewId);
