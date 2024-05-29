@@ -7,6 +7,7 @@
 - HTML / EJS / CSS / Bootstrap
 - JavaScript / NodeJS / Express / EJS - Mate
 - MongoDB / Mongoose
+- Passport / Passport-Local / Passport-Local Mongoose
 - Figma / PhotoShop
 
 ## Design
