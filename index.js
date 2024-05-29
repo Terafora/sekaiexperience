@@ -10,8 +10,10 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user');
 
-const experiences = require('./routes/experiences');
-const reviews = require('./routes/reviews');
+const  userRoutes = require('./routes/users');
+const experienceRoutes = require('./routes/experiences');
+const reviewRoutes = require('./routes/reviews');
+
 
 mongoose.connect('mongodb://localhost:27017/sekai-experience', {
     useNewUrlParser: true,
@@ -61,19 +63,10 @@ app.use((req, res, next) => {
     next();
 });
 
-app.get('/fakeUser', async (req, res) => {
-    try {
-        const user = new User({ email: 'test@email.com', username: 'robot' });
-        const newUser = await User.register(user, 'monkey');
-        res.send(newUser);
-    } catch (error) {
-        console.error(error);
-        res.status(500).send('An error occurred');
-    }
-});
 
-app.use("/experiences", experiences);
-app.use("/experiences/:id/reviews", reviews);
+app.use('/', userRoutes);
+app.use("/experiences", experienceRoutes);
+app.use("/experiences/:id/reviews", reviewRoutes);
 
 app.get('/', (req, res) => {
     res.render('home');
