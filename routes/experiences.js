@@ -16,13 +16,14 @@ router.get('/new', isLoggedIn, (req, res) => {
 router.post('/', isLoggedIn, catchAsync(async (req, res) => {
     const { title, location, description, image } = req.body;
     const experience = new Experience({ title, location, description, image });
+    experience.owner = req.user._id;
     await experience.save();
     req.flash('success', 'Successfully made a new experience!');
     res.redirect(`/experiences/${experience._id}`);
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
-    const experience = await Experience.findById(req.params.id).populate('reviews');
+    const experience = await Experience.findById(req.params.id).populate('reviews').populate('owner');
     if (!experience) {
         req.flash('error', 'Cannot find that experience!');
         return res.redirect('/experiences');
