@@ -20,6 +20,7 @@
                         Submitted by: <%= experience.owner.username %>
                     </li>
                 </ul>
+                <% if (currentUser && currentUser._id.equals(experience.owner._id)) { %>
                 <div class="card-body">
                     <a class="text-white text-decoration-none btn btn-info card-link"
                         href="/experiences/<%= experience._id %>/edit">Edit</a>
@@ -27,6 +28,7 @@
                         <button type="submit" class="btn btn-danger card-link">Delete</button>
                     </form>
                 </div>
+                <% } %>
             </div>
         </div>
         <div class="col-6">
