@@ -23,7 +23,12 @@ router.post('/', isLoggedIn, catchAsync(async (req, res) => {
 }));
 
 router.get('/:id', catchAsync(async (req, res) => {
-    const experience = await Experience.findById(req.params.id).populate('reviews').populate('owner');
+    const experience = await Experience.findById(req.params.id).populate({
+        path: 'reviews',
+        populate: {
+            path: 'owner'
+        }
+    }).populate('owner');
     if (!experience) {
         req.flash('error', 'Cannot find that experience!');
         return res.redirect('/experiences');
@@ -58,12 +63,16 @@ router.put('/:id', isLoggedIn, catchAsync(async (req, res) => {
 }));
 
 
-router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
+router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
     const { id } = req.params;
     const experience = await Experience.findById(id);
     if (!experience) {
         req.flash('error', 'Cannot find that experience!');
         return res.redirect('/experiences');
+    }
+    if (!experience.owner.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/experiences/${id}`);
     }
     await Experience.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted experience');

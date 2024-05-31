@@ -40,3 +40,17 @@ module.exports.isAuthor = async (req, res, next) => {
     }
     next();
 };
+
+module.exports.isReviewAuthor = async (req, res, next) => {
+    const { id, reviewId } = req.params;
+    const review = await Review.findById(reviewId);
+    if (!review) {
+        req.flash('error', 'Cannot find that experience!');
+        return res.redirect('/experiences');
+    }
+    if (!review.owner.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/experiences/${id}`);
+    }
+    next();
+};

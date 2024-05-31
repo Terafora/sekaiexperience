@@ -32,6 +32,7 @@
             </div>
         </div>
         <div class="col-6">
+            <% if(currentUser) { %>
             <h2>Leave a Review</h2>
             <form action="/experiences/<%= experience._id %>/reviews" method="POST" class="mb-3">
                 <div class="mb-3">
@@ -44,6 +45,7 @@
                 </div>
                 <button class="btn btn-success" type="submit">Submit</button>
             </form>
+            <% } %>
             <div class="mb-3">
                 <h2>Reviews</h2>
                 <% for (let review of experience.reviews) { %>
@@ -51,11 +53,15 @@
                         <div class="card-body">
                             <h5 class="card-title">Rating: <%= review.rating %> / 5</h5>
                             <p class="card-text">Review: <%= review.body %></p>
+                            <h6 class="card-subtitle mt-2 text-muted">Submitted by: <%= review.owner.username %></h6>
+                        </div>
+                        <% if (currentUser && currentUser._id.equals(review.owner._id)) { %>
                             <form action="/experiences/<%= experience._id %>/reviews/<%= review._id %>?_method=DELETE"
                                 method="POST">
                                 <button class="btn btn-sm btn-danger">Delete</button>
                             </form>
                         </div>
+                        <% } %>
                     </div>
                     <% } %>
             </div>
