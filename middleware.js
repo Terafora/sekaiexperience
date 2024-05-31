@@ -1,5 +1,6 @@
 const Experience = require('./models/experience');
 const ExpressError = require('./utils/ExpressError');
+const Review = require('./models/review');
 
 module.exports.isLoggedIn = (req, res, next) => {
     if (!req.isAuthenticated()) {
