@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const catchAsync = require('../utils/catchAsync');
 const Experience = require('../models/experience');
-const {isLoggedIn} = require('../middleware');
+const {isLoggedIn, isAuthor} = require('../middleware');
 
 router.get('/', catchAsync(async (req, res) => {
     const experiences = await Experience.find({});
@@ -31,7 +31,7 @@ router.get('/:id', catchAsync(async (req, res) => {
     res.render('experience/show', { experience });
 }));
 
-router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
+router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const experience = await Experience.findById(req.params.id);
     if (!experience) {
         req.flash('error', 'Cannot find that experience!');
@@ -41,14 +41,30 @@ router.get('/:id/edit', isLoggedIn, catchAsync(async (req, res) => {
 }));
 
 router.put('/:id', isLoggedIn, catchAsync(async (req, res) => {
+    const { id } = req.params;
+    const experience = await Experience.findById(id);
+    if (!experience) {
+        req.flash('error', 'Cannot find that experience!');
+        return res.redirect('/experiences');
+    }
+    if (!experience.owner.equals(req.user._id)) {
+        req.flash('error', 'You do not have permission to do that!');
+        return res.redirect(`/experiences/${id}`);
+    }
     const { title, location, description, image } = req.body;
-    const experience = await Experience.findByIdAndUpdate(req.params.id, { title, location, description, image }, { new: true });
+    await Experience.findByIdAndUpdate(id, { title, location, description, image }, { new: true });
     req.flash('success', 'Successfully updated experience!');
-    res.redirect(`/experiences/${experience._id}`);
+    res.redirect(`/experiences/${id}`);
 }));
 
-router.delete('/:id', isLoggedIn, catchAsync(async (req, res) => {
+
+router.delete('/:id', isLoggedIn, isAuthor, catchAsync(async (req, res) => {
     const { id } = req.params;
+    const experience = await Experience.findById(id);
+    if (!experience) {
+        req.flash('error', 'Cannot find that experience!');
+        return res.redirect('/experiences');
+    }
     await Experience.findByIdAndDelete(id);
     req.flash('success', 'Successfully deleted experience');
     res.redirect('/experiences');
