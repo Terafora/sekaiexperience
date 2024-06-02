@@ -9,6 +9,7 @@
 - MongoDB / Mongoose
 - Passport / Passport-Local / Passport-Local Mongoose
 - Figma / PhotoShop
+- Starability
 
 ## Design
 
