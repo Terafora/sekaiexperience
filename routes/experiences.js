@@ -6,18 +6,17 @@ const {isLoggedIn, isAuthor} = require('../middleware');
 const experiences = require('../controllers/experiences');
 const e = require('connect-flash');
 
-router.get('/', catchAsync(experiences.index));
+router.route('/')
+    .get(catchAsync(experiences.index))
+    .post(isLoggedIn, catchAsync(experiences.createExperience));
+
+router.route('/:id')
+    .get(catchAsync(experiences.showExperience))
+    .put(isLoggedIn, isAuthor, catchAsync(experiences.updateExperience))
+    .delete(isLoggedIn, isAuthor, catchAsync(experiences.deleteExperience));
 
 router.get('/new', isLoggedIn, experiences.renderNewForm);
 
-router.post('/', isLoggedIn, catchAsync(experiences.createExperience));
-
-router.get('/:id', catchAsync(experiences.showExperience));
-
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(experiences.renderEditForm));
-
-router.put('/:id', isLoggedIn, catchAsync(experiences.updateExperience));
-
-router.delete('/:id', isLoggedIn, catchAsync(experiences.deleteExperience));
 
 module.exports = router;
