@@ -10,12 +10,12 @@ router.route('/')
     .get(catchAsync(experiences.index))
     .post(isLoggedIn, catchAsync(experiences.createExperience));
 
+router.get('/new', isLoggedIn, experiences.renderNewForm);
+
 router.route('/:id')
     .get(catchAsync(experiences.showExperience))
     .put(isLoggedIn, isAuthor, catchAsync(experiences.updateExperience))
     .delete(isLoggedIn, isAuthor, catchAsync(experiences.deleteExperience));
-
-router.get('/new', isLoggedIn, experiences.renderNewForm);
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(experiences.renderEditForm));
 
