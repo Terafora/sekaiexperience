@@ -56,6 +56,9 @@ module.exports.updateExperience = async (req, res) => {
     }
     const { title, location, description, image } = req.body;
     await Experience.findByIdAndUpdate(id, { title, location, description, image }, { new: true });
+    const imgs = req.files.map(f => ({ url: f.path, filename: f.filename }));
+    experience.images.push(...imgs);
+    await experience.save();
     req.flash('success', 'Successfully updated experience!');
     res.redirect(`/experiences/${id}`);
 };

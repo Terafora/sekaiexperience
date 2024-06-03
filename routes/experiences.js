@@ -17,7 +17,7 @@ router.get('/new', isLoggedIn, experiences.renderNewForm);
 
 router.route('/:id')
     .get(catchAsync(experiences.showExperience))
-    .put(isLoggedIn, isAuthor, catchAsync(experiences.updateExperience))
+    .put(isLoggedIn, isAuthor, upload.array('image'), catchAsync(experiences.updateExperience))
     .delete(isLoggedIn, isAuthor, catchAsync(experiences.deleteExperience));
 
 router.get('/:id/edit', isLoggedIn, isAuthor, catchAsync(experiences.renderEditForm));
