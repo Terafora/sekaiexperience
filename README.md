@@ -17,9 +17,16 @@
 
 ## Features
 
+### On Their Way
+
+- Server side verfication
+I was having some issues implementing this, so I'll be returning to this to make the project more secure.
+
 ## Testing
 
 ## Deployment
+
+## Bugs
 
 ## Credits
 
