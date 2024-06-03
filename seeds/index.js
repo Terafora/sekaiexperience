@@ -21,8 +21,29 @@ const seedDB = async () => {
             owner: "66571b98ffa2ff1dcbbf5e49",
             title: `${sample(descriptors)}, ${sample(places)}`,
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
-            image: 'https://source.unsplash.com//collection/483251',
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum?',
+            images: [
+                {
+                    url: 'https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420552/SekaiExperience/qzboqiyxiq0tzzpc0jnk.webp',
+                    filename: 'SekaiExperience/qzboqiyxiq0tzzpc0jnk'
+                },
+                {
+                    url: 'https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/sefdzqnsao1dhundiqyw.jpg',
+                    filename: 'SekaiExperience/sefdzqnsao1dhundiqyw'
+                },
+                {
+                    url: 'https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/xykgc0l4gs4piiuabmip.png',
+                    filename: 'SekaiExperience/xykgc0l4gs4piiuabmip'
+                },
+                {
+                    url: 'https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/nv7nri0pr0semyytuvm0.png',
+                    filename: 'SekaiExperience/nv7nri0pr0semyytuvm0',
+                },
+                {
+                    url: 'https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420929/SekaiExperience/d8xumg9qsdvcrnhfmqda.png',
+                    filename: 'SekaiExperience/d8xumg9qsdvcrnhfmqda'
+                }
+            ]
         })
         await exp.save();
     }
