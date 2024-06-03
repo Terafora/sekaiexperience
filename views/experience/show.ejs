@@ -4,7 +4,9 @@
     <div class="row">
         <div class="col-6">
             <div class="card mb-3">
-                <img src="<%= experience.image %>" class="card-img-top" alt="<%= experience.title %>">
+                <% for (let img of experience.images){ %>
+                    <img src="<%= img.url %>" class="card-img-top" alt="<%= experience.title %>">
+                <% } %>
                 <div class="card-body">
                     <h5 class="card-title">
                         <%= experience.title %>
