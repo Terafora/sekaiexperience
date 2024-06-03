@@ -4,7 +4,12 @@ const Schema = mongoose.Schema;
 
 const ExperienceSchema = new Schema({
     title: String,
-    image: String,
+    images: [
+        {
+            url: String,
+            filename: String
+        }    
+    ],
     location: String,
     description: String,
     owner: {

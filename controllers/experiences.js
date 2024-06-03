@@ -12,8 +12,10 @@ module.exports.renderNewForm = (req, res) => {
 module.exports.createExperience = async (req, res) => {
     const { title, location, description, image } = req.body;
     const experience = new Experience({ title, location, description, image });
+    experience.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     experience.owner = req.user._id;
     await experience.save();
+    console.log(experience);
     req.flash('success', 'Successfully made a new experience!');
     res.redirect(`/experiences/${experience._id}`);
 };

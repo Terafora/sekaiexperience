@@ -6,14 +6,12 @@ const {isLoggedIn, isAuthor} = require('../middleware');
 const experiences = require('../controllers/experiences');
 const e = require('connect-flash');
 const multer = require('multer');
-const upload = multer({ dest: 'uploads/' });
+const {storage} = require('../cloudinary');
+const upload = multer({ storage });
 
 router.route('/')
     .get(catchAsync(experiences.index))
-    // .post(isLoggedIn, catchAsync(experiences.createExperience));
-    .post(upload.array('image'), (req, res) => {
-        console.log(req.body, req.files);
-    });
+    .post(isLoggedIn, upload.array('image'), catchAsync(experiences.createExperience));
 
 router.get('/new', isLoggedIn, experiences.renderNewForm);
 
