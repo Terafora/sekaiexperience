@@ -10,6 +10,8 @@
 - Passport / Passport-Local / Passport-Local Mongoose
 - Figma / PhotoShop
 - Starability
+- Cloudinary
+- Multer / multer-storage-cloudinary
 
 ## Design
 
