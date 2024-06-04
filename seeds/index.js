@@ -15,7 +15,7 @@ const sample = array => array[Math.floor(Math.random() * array.length)];
 
 const seedDB = async () => {
     await Experience.deleteMany({});
-    for(let i = 0; i < 50; i++) {
+    for(let i = 0; i < 200; i++) {
         const random1000 = Math.floor(Math.random() * 1000);
         const exp = new Experience({
             owner: "66571b98ffa2ff1dcbbf5e49",

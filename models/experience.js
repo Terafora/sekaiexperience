@@ -11,6 +11,8 @@ ImageSchema.virtual('thumbnail').get(function () {
     return this.url.replace('/upload', '/upload/w_200');
 });
 
+const opts = { toJSON: { virtuals: true } };
+
 const ExperienceSchema = new Schema({
     title: String,
     geometry: {
@@ -37,6 +39,10 @@ const ExperienceSchema = new Schema({
             ref: 'Review'
         }
     ]
+},opts);
+
+ExperienceSchema.virtual('properties.popUpMarkup').get(function () {
+    return '<strong><a href="/experiences/' + this._id + '">' + this.title + '</a></strong><p>' + this.description.substring(0, 20) + '...</p>';
 });
 
 ExperienceSchema.post('findOneAndDelete', async function (doc) {
