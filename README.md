@@ -12,6 +12,7 @@
 - Starability
 - Cloudinary
 - Multer / multer-storage-cloudinary
+- Mapbox
 
 ## Design
 
