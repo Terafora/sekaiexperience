@@ -11,7 +11,11 @@
     <div class="card mb-3">
         <div class="row">
             <div class="col-md-4">
-                <img class="img-fluid" src="<%= experience.images[1].url %>" alt="<%= experience.title %>">
+                <% if(experience.images.length){ %>
+                    <img class="img-fluid" src="<%= experience.images[0].url %>" alt="<%= experience.title %>">
+                <% }else{ %>
+                    <img class="img-fluid" src="https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/sefdzqnsao1dhundiqyw.jpg" alt="<%= experience.title %>">
+                <% } %>
             </div>
             <div class="col-md-8">
                 <div class="car-body">

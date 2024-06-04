@@ -1,7 +1,12 @@
 <% layout('layouts/boilerplate') %>
 <link rel="stylesheet" href="/styleshseets/stars.css">
+<script>
+    const mapboxToken = "<%= process.env.MAPBOX_TOKEN %>";
+    const experience = <%- JSON.stringify(experience) %>;
+</script>
 
     <div class="row">
+        <div id="map" style="width: 100%; height: 300px; border-radius: 8px;"></div>
         <div class="col-6">
             <div class="card mb-3">
                 <div id="experienceControls" class="carousel slide" data-bs-ride="carousel">
@@ -23,6 +28,10 @@
                             <span class="carousel-control-next-icon" aria-hidden="true"></span>
                             <span class="visually-hidden">Next</span>
                         </button>
+                        <% } %>
+                    <% if(experience.images.length === 0){ %>
+                        <img src="https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/sefdzqnsao1dhundiqyw.jpg"
+                            class="d-block w-100" alt="">
                         <% } %>
                 </div>
                 <div class="card-body">
@@ -99,3 +108,5 @@
             </div>
         </div>
     </div>
+
+    <script src="/javascripts/showPageMap.js"></script>

@@ -21,12 +21,15 @@ const seedDB = async () => {
             owner: "66571b98ffa2ff1dcbbf5e49",
             title: `${sample(descriptors)}, ${sample(places)}`,
             location: `${cities[random1000].city}, ${cities[random1000].state}`,
+            geometry: {
+                type: 'Point',
+                coordinates: [
+                    cities[random1000].longitude,
+                    cities[random1000].latitude
+                ]
+            },
             description: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, voluptatum?',
             images: [
-                {
-                    url: 'https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420552/SekaiExperience/qzboqiyxiq0tzzpc0jnk.webp',
-                    filename: 'SekaiExperience/qzboqiyxiq0tzzpc0jnk'
-                },
                 {
                     url: 'https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/sefdzqnsao1dhundiqyw.jpg',
                     filename: 'SekaiExperience/sefdzqnsao1dhundiqyw'

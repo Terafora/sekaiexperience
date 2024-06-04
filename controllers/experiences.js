@@ -1,4 +1,7 @@
 const Experience = require('../models/experience');
+const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
+const mapBoxToken = process.env.MAPBOX_TOKEN;
+const geocoder = mbxGeocoding({ accessToken: mapBoxToken });
 const { cloudinary } = require('../cloudinary');
 
 module.exports.index = async (req, res) => {
@@ -11,12 +14,16 @@ module.exports.renderNewForm = (req, res) => {
 };
 
 module.exports.createExperience = async (req, res) => {
-    const { title, location, description, image } = req.body;
+    const geoData = await geocoder.forwardGeocode({
+        query: req.body.location,
+        limit: 1
+    }).send();
+    const { title, location, description, image, geometry } = req.body;
     const experience = new Experience({ title, location, description, image });
+    experience.geometry = geoData.body.features[0].geometry;
     experience.images = req.files.map(f => ({ url: f.path, filename: f.filename }));
     experience.owner = req.user._id;
     await experience.save();
-    console.log(experience);
     req.flash('success', 'Successfully made a new experience!');
     res.redirect(`/experiences/${experience._id}`);
 };
