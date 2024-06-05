@@ -18,6 +18,7 @@ const userRoutes = require('./routes/users');
 const experienceRoutes = require('./routes/experiences');
 const reviewRoutes = require('./routes/reviews');
 const mongoSanitize = require('express-mongo-sanitize');
+const helmet = require('helmet');
 
 
 mongoose.connect('mongodb://localhost:27017/sekai-experience', {
@@ -56,6 +57,7 @@ const sessionConfig = {
 
 app.use(session(sessionConfig));
 app.use(flash());
+app.use(helmet({contentSecurityPolicy: false}));
 
 app.use(passport.initialize());
 app.use(passport.session());

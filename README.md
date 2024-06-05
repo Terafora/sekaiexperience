@@ -13,6 +13,7 @@
 - Cloudinary
 - Multer / multer-storage-cloudinary
 - Mapbox
+- Helmet
 
 ## Design
 

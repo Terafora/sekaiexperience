@@ -1,6 +1,5 @@
 <% layout('layouts/boilerplate') %>
 
-
 <div id="cluster-map"></div>
 <h1>
     All Experiences
@@ -13,9 +12,9 @@
         <div class="row">
             <div class="col-md-4">
                 <% if(experience.images.length){ %>
-                    <img class="img-fluid" src="<%= experience.images[0].url %>" alt="<%= experience.title %>">
+                    <img crossorigin="anonymous" class="img-fluid" src="<%= experience.images[0].url %>" alt="<%= experience.title %>">
                 <% }else{ %>
-                    <img class="img-fluid" src="https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/sefdzqnsao1dhundiqyw.jpg" alt="<%= experience.title %>">
+                    <img crossorigin="anonymous" class="img-fluid" src="https://res.cloudinary.com/djrh6ryfr/image/upload/v1717420928/SekaiExperience/sefdzqnsao1dhundiqyw.jpg" alt="<%= experience.title %>">
                 <% } %>
             </div>
             <div class="col-md-8">
@@ -32,7 +31,7 @@
     </div>
 <% }; %>
 
-<script>
+<script crossorigin="anonymous">
     const mapboxToken = "<%= process.env.MAPBOX_TOKEN %>";
     const experiences = {features: <%- JSON.stringify(experiences) %>};
 </script>
