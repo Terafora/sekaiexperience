@@ -14,9 +14,10 @@ const methodOverride = require('method-override');
 const User = require('./models/user');
 const passport = require('passport');
 const LocalStrategy = require('passport-local');
-const  userRoutes = require('./routes/users');
+const userRoutes = require('./routes/users');
 const experienceRoutes = require('./routes/experiences');
 const reviewRoutes = require('./routes/reviews');
+const mongoSanitize = require('express-mongo-sanitize');
 
 
 mongoose.connect('mongodb://localhost:27017/sekai-experience', {
@@ -39,6 +40,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(mongoSanitize());
 
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret',
