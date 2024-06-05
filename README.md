@@ -6,7 +6,7 @@
 
 - HTML / EJS / CSS / Bootstrap
 - JavaScript / NodeJS / Express / EJS - Mate
-- MongoDB / Mongoose / Express-Mongo-Sanitize
+- MongoDB / Mongoose / Express-Mongo-Sanitize / Connect-Mongo
 - Passport / Passport-Local / Passport-Local Mongoose
 - Figma / PhotoShop
 - Starability
