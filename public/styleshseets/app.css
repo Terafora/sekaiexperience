@@ -11,3 +11,14 @@
     margin: 0 auto;
     border-radius: 5px;
 }
+
+.carousel-inner {
+    height: 300px; /* or any height you want the carousel to be */
+}
+
+.carousel-item img {
+    height: 100%;
+    width: auto;
+    object-fit: cover;
+    object-position: center;
+}
