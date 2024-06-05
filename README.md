@@ -23,6 +23,8 @@
 - Server side verfication
 I was having some issues implementing this, so I'll be returning to this to make the project more secure.
 
+- A pagify feture is still to be added to the index page to provide better navigation.
+
 ## Testing
 
 ## Deployment
